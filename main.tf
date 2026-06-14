@@ -6,7 +6,7 @@ resource "azurerm_resource_group" "rg" {
   tags = {
     Environment  = "dev"
     ManagedBy    = "Terraform"
-    PipelineTest = "active"  # <-- Added safely to trigger GitHub Actions
+    PipelineTest = "running"  # <-- Changed to trigger the pipeline path filter
   }
 }
 
