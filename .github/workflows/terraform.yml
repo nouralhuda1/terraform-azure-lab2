@@ -3,12 +3,8 @@ name: Terraform CI/CD
 on:
   pull_request:
     branches: [ main ]
-    paths:
-      - '**.tf'
   push:
     branches: [ main ]
-    paths:
-      - '**.tf'
 
 env:
   ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
@@ -47,7 +43,8 @@ jobs:
             issue_number: context.issue.number,
             owner: context.repo.owner,
             repo: context.repo.repo,
-            body: '### Terraform Plan \n```\n' + plan + '\n```'
+            body: '### Terraform Plan \n```\n' + plan + '\n
+```'
           });
 
   terraform-apply:
