@@ -1,10 +1,7 @@
 name: Terraform CI/CD
 
-on:
-  pull_request:
-    branches: [ main ]
-  push:
-    branches: [ main ]
+# This forces GitHub to run the pipeline on ANY push to ANY branch
+on: [push, pull_request]
 
 env:
   ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
@@ -15,7 +12,6 @@ jobs:
   terraform-plan:
     name: 'Terraform Plan'
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request'
 
     steps:
     - name: Checkout code
@@ -33,6 +29,7 @@ jobs:
       run: terraform plan -no-color
 
     - name: Comment Plan on PR
+      if: github.event_name == 'pull_request'
       uses: actions/github-script@v7
       with:
         script: |
@@ -47,6 +44,7 @@ jobs:
     name: 'Terraform Apply'
     runs-on: ubuntu-latest
     needs: terraform-plan
+    # Strictly protect production: only run apply if pushing directly to main
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     environment: production
 
