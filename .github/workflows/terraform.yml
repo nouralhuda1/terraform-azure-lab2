@@ -17,16 +17,22 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
+    # This forces GitHub to log into Azure explicitly first so Terraform doesn't hang
+    - name: Azure Login
+      uses: azure/login@v2
+      with:
+        creds: '{"clientId":"${{ secrets.AZURE_CLIENT_ID }}","clientSecret":"${{ secrets.AZURE_CLIENT_SECRET }}","subscriptionId":"${{ secrets.AZURE_SUBSCRIPTION_ID }}","tenantId":"${{ secrets.AZURE_TENANT_ID }}"}'
+
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v3
       with:
         terraform_version: '1.6.0'
 
     - name: Terraform Init
-      run: terraform init -lock=false
+      run: terraform init
 
     - name: Terraform Plan
-      run: terraform plan -no-color -lock=false
+      run: terraform plan -no-color
 
     - name: Comment Plan on PR
       if: github.event_name == 'pull_request'
@@ -50,6 +56,11 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
+
+    - name: Azure Login
+      uses: azure/login@v2
+      with:
+        creds: '{"clientId":"${{ secrets.AZURE_CLIENT_ID }}","clientSecret":"${{ secrets.AZURE_CLIENT_SECRET }}","subscriptionId":"${{ secrets.AZURE_SUBSCRIPTION_ID }}","tenantId":"${{ secrets.AZURE_TENANT_ID }}"}'
 
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v3
