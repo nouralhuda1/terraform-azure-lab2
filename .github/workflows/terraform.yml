@@ -23,10 +23,10 @@ jobs:
         terraform_version: '1.6.0'
 
     - name: Terraform Init
-      run: terraform init
+      run: terraform init -lock=false
 
     - name: Terraform Plan
-      run: terraform plan -no-color
+      run: terraform plan -no-color -lock=false
 
     - name: Comment Plan on PR
       if: github.event_name == 'pull_request'
