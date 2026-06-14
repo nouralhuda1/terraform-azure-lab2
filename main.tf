@@ -4,9 +4,8 @@ resource "azurerm_resource_group" "rg" {
   location = "swedencentral"
 
   tags = {
-    Environment  = "dev"
-    ManagedBy    = "Terraform"
-    PipelineTest = "active"  # <-- Added safely to trigger GitHub Actions
+    Environment = "dev"
+    ManagedBy   = "Terraform"
   }
 }
 
@@ -49,7 +48,7 @@ resource "azurerm_network_security_group" "nsg" {
     source_port_range          = "*"
     destination_port_range     = "22"
     source_address_prefix      = "*"
-    destination_address_prefix = "*"
+    destination_address_prefix  = "*"
   }
 
   security_rule {
@@ -61,7 +60,7 @@ resource "azurerm_network_security_group" "nsg" {
     source_port_range          = "*"
     destination_port_range     = "80"
     source_address_prefix      = "*"
-    destination_address_prefix = "*"
+    destination_address_prefix  = "*"
   }
 }
 
